@@ -6,6 +6,8 @@ import com.Fitness.ActivityService.Model.Activity;
 import com.Fitness.ActivityService.Repository.activityRepository;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -14,6 +16,13 @@ public class activityService {
 
     private final activityRepository activityRepository;
     private final UserValidationService userValidationService;
+    private final KafkaTemplate<Long , Activity> kafkaTemplate;
+
+                                                                    //kafka:
+                                                                    //topic:
+                                                                    //name: activity-events
+    @Value("${kafka.topic.name}") // this lookup the yml files and see this ^|^  and injection the topic name
+    private String topicName;
 
 
     public activityResponse trackActivity(activityRequest request){
@@ -34,6 +43,13 @@ public class activityService {
                 .build();
 
         Activity savedActivity = activityRepository.save(activity);
+
+        try{// message save in key-value format like
+             // here we categorized message , save user id  ,  activity
+            kafkaTemplate.send(topicName , savedActivity.getUserId(), savedActivity);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
         return mapToResponse(savedActivity);
 
