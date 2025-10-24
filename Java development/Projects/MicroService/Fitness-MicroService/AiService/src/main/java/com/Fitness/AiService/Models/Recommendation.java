@@ -10,20 +10,21 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Document(collection = "recommendation")
+@Document(collection = "AiRecommendationFitness")
 @Data
 @Builder
 public class Recommendation {
 
     @Id
-    private Long id;
-    private Long UserId;
+    private String id;
+    private Long userId;
+    private String type;
     private String activityId;
-    private String recommendation;
+    private String recommendation; // full analysis data store here
 
-    private List<String> improvements;
-    private List<String> suggestions;
-    private List<String> safety;
+    private List<String> improvements; // store improvement data
+    private List<String> suggestions; // store suggestions data
+    private List<String> safety;// store safety data
 
     @CreatedDate
     private LocalDateTime createdAt;

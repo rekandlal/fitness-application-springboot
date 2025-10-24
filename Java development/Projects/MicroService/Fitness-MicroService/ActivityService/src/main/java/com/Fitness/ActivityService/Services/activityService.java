@@ -44,6 +44,7 @@ public class activityService {
 
         Activity savedActivity = activityRepository.save(activity);
 
+        // send activity to apache kafka
         try{// message save in key-value format like
              // here we categorized message , save user id  ,  activity
             kafkaTemplate.send(topicName , savedActivity.getUserId(), savedActivity);
