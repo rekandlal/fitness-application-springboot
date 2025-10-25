@@ -1,0 +1,42 @@
+spring:
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/AiRecommendationFitness
+      database: AiRecommendationFitness
+
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: activity-processor-group # ek topic ke multiple consumer ho sakte hai that why we give some (group id)
+      key-deserializer: org.apache.kafka.common.serialization.LongDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.use.type.headers: false
+        spring.json.value.default.type: com.Fitness.AiService.Models.Activity
+        spring.json.trusted.packages: "*"
+
+gemini:
+  api:
+    url: ${GEMINI_URL}
+    key: ${GEMINI_KEY}
+
+
+kafka:
+  topic:
+    name: activity-events #Messages ko store karta hai temporarily
+
+server:
+  port: 8083
+
+eureka:
+  instance:
+    instance-id: ${spring.application.name}:${server.port}  # Ye line add karo
+    lease-renewal-interval-in-seconds: 10
+    lease-expiration-duration-in-seconds: 30
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+    register-with-eureka: true    # Ye lines uncomment karo
+    fetch-registry: true          # Ye bhi
+
+

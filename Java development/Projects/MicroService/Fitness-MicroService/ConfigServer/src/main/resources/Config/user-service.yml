@@ -1,0 +1,64 @@
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/Fitness-MicroService-Users
+    username: postgres
+    password: Adity@007
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+server:
+  port: 8081
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+    enabled: true
+  instance:
+    instance-id: ${spring.application.name}:${server.port}
+    appname: ${spring.application.name}
+
+
+
+
+
+
+
+
+
+#spring:
+#  application:
+#    name=UserService
+#  datasource:
+#    url:  jdbc:postgresql://localhost:5432/Fitness-MicroService-Users
+#    username: postgres
+#    password: Adity@007
+#
+#
+#  jpa:
+#    hibernate:
+#      ddl-auto: update
+#    database-platform: org.hibernate.dialect.PostgreSQLDialect
+#
+#server:
+#  port: 8081
+#
+#eureka:
+#  instance:
+#    lease-renewal-interval-in-seconds: 10   # Kitni seconds me heartbeat bhejna hai
+#    lease-expiration-duration-in-seconds: 30 # Agar itni seconds tak heartbeat na aaye to instance expire
+#  client:
+#    service-url:
+#      defaultZone: http://localhost:8761/eureka/   # Ye comment hatake enable karo
+#    register-with-eureka: true
+#    fetch-registry: true
+
+#eureka:
+#  client:
+#    service-url:
+#      defaultZone: http://localhost:8761/eureka  # aapke Eureka server ka URL
+#    register-with-eureka: true
+#    fetch-registry: true

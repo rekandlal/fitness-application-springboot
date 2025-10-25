@@ -1,0 +1,61 @@
+spring:
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/AiActivityFitness
+      database: AiActivityFitness
+
+  kafka:
+    bootstrap-servers: localhost:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.LongSerializer # user id (long)
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer # give activity detail to kafka in json format so Ai service take message from it, read and give recommendation
+      # message / task store in kafka
+
+kafka:
+  topic:
+    name: activity-events #Messages ko store karta hai temporarily
+
+
+
+server:
+  port: 8082
+
+eureka:
+  instance:
+    instance-id: ${spring.application.name}:${server.port}  # Ye line add karo
+    lease-renewal-interval-in-seconds: 10
+    lease-expiration-duration-in-seconds: 30
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+    register-with-eureka: true    # Ye lines uncomment karo
+    fetch-registry: true          # Ye bhi
+
+
+#spring:
+#  application:
+#    name=ActivityService
+#  data:
+#    mongodb:
+#      url : mongodb://localhost:27017/AiActivityFitness
+#      database: AiActivityFitness
+#
+#server:
+#  port: 8082
+#
+#eureka:
+#  instance:
+#    lease-renewal-interval-in-seconds: 10   # Kitni seconds me heartbeat bhejna hai
+#    lease-expiration-duration-in-seconds: 30 # Agar itni seconds tak heartbeat na aaye to instance expire
+#  client:
+#    service-url:
+#      defaultZone: http://localhost:8761/eureka/
+#
+#
+
+#eureka:
+#  client:
+#    service-url:
+#      defaultZone: http://localhost:8761/eureka  # aapke Eureka server ka URL
+#    register-with-eureka: true
+#    fetch-registry: true
